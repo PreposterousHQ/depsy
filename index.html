@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DePsy — Democratizing Mental Health</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #080807;
+    --warm-white: #f2ede4;
+    --gold: #c8a227;
+    --gold-dim: rgba(200, 162, 39, 0.18);
+    --gold-line: rgba(200, 162, 39, 0.35);
+    --red: #b83025;
+    --muted: #7a7570;
+    --mid: #3a3830;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'IBM Plex Sans', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--warm-white);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    font-size: 17px;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(242,237,228,0.07);
+    background: rgba(8,8,7,0.92);
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+  }
+
+  .nav-badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    border: 1px solid var(--mid);
+    padding: 4px 12px;
+    text-transform: uppercase;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10rem 3rem 6rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .hero-headline {
+    font-family: var(--serif);
+    font-size: clamp(3.2rem, 7vw, 6.5rem);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 2.5rem;
+    color: var(--warm-white);
+  }
+
+  .hero-headline em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-headline .accent-red {
+    color: var(--red);
+  }
+
+  .hero-sub {
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: rgba(242,237,228,0.7);
+    max-width: 600px;
+    line-height: 1.8;
+    margin-bottom: 3.5rem;
+    border-left: 2px solid var(--gold);
+    padding-left: 1.5rem;
+  }
+
+  .hero-cta-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    padding: 14px 32px;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s;
+  }
+  .btn-primary:hover { background: #d9b035; }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--warm-white);
+    border: 1px solid var(--mid);
+    padding: 14px 32px;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero-rule {
+    position: absolute;
+    right: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    writing-mode: vertical-rl;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+
+  /* DIVIDER */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-line), transparent);
+  }
+
+  /* PROCLAMATION */
+  .proclamation {
+    background: var(--gold-dim);
+    border-top: 1px solid var(--gold-line);
+    border-bottom: 1px solid var(--gold-line);
+    padding: 5rem 3rem;
+    text-align: center;
+  }
+
+  .proclamation p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.5rem, 3.5vw, 2.8rem);
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--warm-white);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .proclamation .attr {
+    font-family: var(--mono);
+    font-style: normal;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-top: 1.5rem;
+    display: block;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 6rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .section-heading {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: 2.5rem;
+  }
+
+  .section-heading em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .prose {
+    font-size: 1.05rem;
+    color: rgba(242,237,228,0.75);
+    max-width: 680px;
+    line-height: 1.9;
+  }
+
+  .prose strong {
+    color: var(--warm-white);
+    font-weight: 500;
+  }
+
+  /* THE INDICTMENT */
+  .indictment-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-top: 4rem;
+    border: 1px solid var(--mid);
+  }
+
+  .indictment-cell {
+    padding: 2.5rem;
+    border-right: 1px solid var(--mid);
+    border-bottom: 1px solid var(--mid);
+  }
+
+  .indictment-cell:nth-child(even) { border-right: none; }
+  .indictment-cell:nth-last-child(-n+2) { border-bottom: none; }
+
+  .indictment-cell .number {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--red);
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
+  }
+
+  .indictment-cell h3 {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .indictment-cell p {
+    font-size: 0.92rem;
+    color: rgba(242,237,228,0.6);
+    line-height: 1.75;
+  }
+
+  /* WHAT WE'RE BUILDING */
+  .build-list {
+    margin-top: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .build-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 0;
+    border-top: 1px solid var(--mid);
+    padding: 2.5rem 0;
+    align-items: start;
+  }
+
+  .build-item:last-child { border-bottom: 1px solid var(--mid); }
+
+  .build-num {
+    font-family: var(--mono);
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: var(--mid);
+    line-height: 1;
+    padding-top: 4px;
+  }
+
+  .build-content h3 {
+    font-family: var(--serif);
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
+  }
+
+  .build-content p {
+    font-size: 0.95rem;
+    color: rgba(242,237,228,0.6);
+    line-height: 1.8;
+    max-width: 560px;
+  }
+
+  /* MANIFESTO LINE */
+  .manifesto-line {
+    padding: 6rem 3rem;
+    text-align: center;
+    background: var(--black);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .manifesto-line::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,162,39,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .manifesto-line .line {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.8rem, 4vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.25;
+    color: var(--gold);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* WHO IT'S FOR */
+  .freedom-fighters {
+    background: rgba(184, 48, 37, 0.06);
+    border-top: 1px solid rgba(184, 48, 37, 0.25);
+    border-bottom: 1px solid rgba(184, 48, 37, 0.25);
+    padding: 5rem 3rem;
+  }
+
+  .fighters-grid {
+    max-width: 1100px;
+    margin: 3rem auto 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid rgba(184, 48, 37, 0.2);
+  }
+
+  .fighter-cell {
+    padding: 2rem 1.75rem;
+    border-right: 1px solid rgba(184, 48, 37, 0.2);
+  }
+
+  .fighter-cell:last-child { border-right: none; }
+
+  .fighter-cell .icon {
+    width: 32px;
+    height: 2px;
+    background: var(--red);
+    margin-bottom: 1.25rem;
+  }
+
+  .fighter-cell h3 {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.6rem;
+    color: var(--warm-white);
+  }
+
+  .fighter-cell p {
+    font-size: 0.88rem;
+    color: rgba(242,237,228,0.55);
+    line-height: 1.7;
+  }
+
+  /* JOIN */
+  .join-section {
+    padding: 7rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .join-left .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    border: 1px solid var(--gold-line);
+    padding: 6px 14px;
+    margin-bottom: 2rem;
+  }
+
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .join-left h2 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+
+  .join-left h2 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .join-left p {
+    font-size: 1rem;
+    color: rgba(242,237,228,0.65);
+    line-height: 1.85;
+    margin-bottom: 2.5rem;
+  }
+
+  .join-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 0;
+  }
+
+  .form-row input[type="email"] {
+    flex: 1;
+    background: transparent;
+    border: 1px solid var(--mid);
+    border-right: none;
+    color: var(--warm-white);
+    padding: 14px 18px;
+    font-family: var(--sans);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-row input[type="email"]::placeholder {
+    color: var(--muted);
+  }
+
+  .form-row input[type="email"]:focus {
+    border-color: var(--gold);
+  }
+
+  .form-row button {
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    padding: 14px 24px;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .form-row button:hover { background: #d9b035; }
+
+  .form-note {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  select {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--mid);
+    color: var(--warm-white);
+    padding: 12px 18px;
+    font-family: var(--sans);
+    font-size: 14px;
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  select option {
+    background: #1a1a18;
+    color: var(--warm-white);
+  }
+
+  select:focus { border-color: var(--gold); }
+
+  /* CONTEXT STATEMENT */
+  .context {
+    border-left: 2px solid var(--mid);
+    padding-left: 2.5rem;
+  }
+
+  .context .context-heading {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .context-block {
+    margin-bottom: 2rem;
+  }
+
+  .context-block h4 {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .context-block p {
+    font-size: 0.9rem;
+    color: rgba(242,237,228,0.55);
+    line-height: 1.75;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--mid);
+    padding: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .footer-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .footer-links a {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+
+  .footer-copy {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  /* RESPONSIVENESS */
+  @media (max-width: 760px) {
+    nav { padding: 1rem 1.5rem; }
+    .hero { padding: 8rem 1.5rem 4rem; }
+    .hero-rule { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .indictment-grid { grid-template-columns: 1fr; }
+    .indictment-cell { border-right: none !important; }
+    .fighters-grid { grid-template-columns: 1fr; }
+    .fighter-cell { border-right: none; border-bottom: 1px solid rgba(184,48,37,0.2); }
+    .fighter-cell:last-child { border-bottom: none; }
+    .join-section { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 1.5rem; }
+    footer { flex-direction: column; align-items: flex-start; padding: 2rem 1.5rem; }
+    .freedom-fighters { padding: 4rem 1.5rem; }
+    .proclamation { padding: 4rem 1.5rem; }
+    .manifesto-line { padding: 4rem 1.5rem; }
+  }
+
+  /* FADE IN ANIMATION */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><span style="color:var(--warm-white);">De</span><span style="color:var(--gold);">Psy</span></div>
+  <div class="nav-badge">In Development — 2026</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Mental Health Reformation</div>
+  <h1 class="hero-headline">
+    The people whose lives<br>
+    built the knowledge<br>
+    <em>should own it.</em>
+  </h1>
+  <p class="hero-sub">
+    For a hundred years, psychiatry mined human experience and kept the profits. The people who actually lived it got a diagnosis and a bill. DePsy changes the architecture — turning lived experience into cooperatively owned knowledge infrastructure. For the people. By the people. <strong>Full stop.</strong>
+  </p>
+  <div class="hero-cta-row">
+    <a href="#join" class="btn-primary">Join the Founding Circle</a>
+    <a href="#vision" class="btn-ghost">Read the Vision</a>
+  </div>
+  <div class="hero-rule">Mental Health Reformation</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PROCLAMATION -->
+<div class="proclamation">
+  <p>"The sum total of human experience with mental difference — the journals, the 3am coping rituals, the spiritual emergencies misread as psychosis — has never been databased, never been returned to its source, and never been owned by the people who lived it. Until now."</p>
+  <span class="attr">— The <span style="text-transform:none;"><span style="color:var(--warm-white);">De</span><span style="color:var(--gold);">Psy</span></span> Proposition</span>
+</div>
+
+<!-- THE INDICTMENT -->
+<section id="vision" class="fade-in">
+  <div class="section-label">The Problem</div>
+  <h2 class="section-heading">
+    The extraction economy<br>
+    of the suffering soul.
+  </h2>
+  <p class="prose">
+    Every major system that profits from mental illness was built on one foundational premise: the person suffering is a <strong>data source</strong>, not a knowledge holder. That premise is wrong. And it has cost us everything.
+  </p>
+
+  <div class="indictment-grid">
+    <div class="indictment-cell">
+      <div class="number">01 —</div>
+      <h3>The psychiatric system extracts</h3>
+      <p>Your experience becomes a diagnostic code. The institution keeps the code, the authority, and the billing. You get a label and a prescription, neither of which you chose.</p>
+    </div>
+    <div class="indictment-cell">
+      <div class="number">02 —</div>
+      <h3>Pharma monetizes the wound</h3>
+      <p>The business model requires the wound to be chronic. Permanent manageable illness is far more profitable than the possibility that your suffering has a message — and that message might point toward liberation, not lifetime medication.</p>
+    </div>
+    <div class="indictment-cell">
+      <div class="number">03 —</div>
+      <h3>The peer knowledge never scales</h3>
+      <p>There is a vast, underground world of peer wisdom — what actually works, how people actually navigate breakdown into breakthrough — that never gets aggregated, never gets reflected back, and never gets paid for.</p>
+    </div>
+    <div class="indictment-cell">
+      <div class="number">04 —</div>
+      <h3>The AI revolution is happening without us</h3>
+      <p>Right now, language models are being trained on clinical literature, diagnostic manuals, and therapist notes. Nobody is training the model on first-person lived experience. The most important dataset in mental health doesn't exist yet — and when it's built, it won't be owned by the people who created it. Unless we build it first.</p>
+    </div>
+  </div>
+</section>
+
+<div class="manifesto-line">
+  <div class="line">"30 years of initiation becoming infrastructure."</div>
+  <div style="margin-top:1.5rem; font-family:var(--mono); font-size:12px; letter-spacing:0.2em; color:var(--muted); text-transform:uppercase;">— <span style="text-transform:none;"><span style="color:var(--warm-white);">De</span><span style="color:var(--gold);">Psy</span></span> Founder &nbsp;Bret Warshawsky</div>
+</div>
+
+<!-- WHAT WE'RE BUILDING -->
+<section id="build" class="fade-in">
+  <div class="section-label">The Architecture</div>
+  <h2 class="section-heading">
+    What <em>DePsy</em> builds.
+  </h2>
+  <p class="prose">
+    DePsy is a decentralized mental health operating system — cooperatively owned by the people whose experience trains it. Not a therapy app. Not a diagnostic tool. <strong>A knowledge commons that can pay its creators (in partnership with Bonfires AI).</strong>
+  </p>
+
+  <div class="build-list">
+    <div class="build-item">
+      <div class="build-num">01</div>
+      <div class="build-content">
+        <h3>The Database of Living Experience</h3>
+        <p>Millions of hours of first-person testimony — YouTube confessionals, written journals, video stories, lived accounts from every culture, language, diagnosis, and tradition — ingested, anonymized, and held as a commons. Not clinical records. Not research abstracts. The actual texture of what it feels like from the inside, and what people figured out that helped.</p>
+      </div>
+    </div>
+    <div class="build-item">
+      <div class="build-num">02</div>
+      <div class="build-content">
+        <h3>The AI Trained by the People</h3>
+        <p>A large language model built from the ground up on lived experience data — not diagnostic manuals, not pharmaceutical studies. A model that speaks peer-to-peer, that surfaces pattern and wisdom from millions of human journeys, that knows the difference between a spiritual emergence and a psychiatric emergency because the people who lived through both told it.</p>
+      </div>
+    </div>
+    <div class="build-item">
+      <div class="build-num">03</div>
+      <div class="build-content">
+        <h3>The $KNOW Economy (Bonfires AI)</h3>
+        <p>Contribute your story, earn ownership. The $KNOW token rewards contributors not for consuming the platform but for building it. When the AI generates value — through licensing, through services, through the simple fact of being the most honest mental health dataset ever assembled — the value flows back to the people who created it. Healing and economic sovereignty in the same motion.</p>
+      </div>
+    </div>
+    <div class="build-item">
+      <div class="build-num">04</div>
+      <div class="build-content">
+        <h3>The Cooperative DAO</h3>
+        <p>No pharmaceutical board. No venture capital extraction. A Decentralized Autonomous Organization where contributors hold governance rights. The model's direction, the platform's policies, the distribution of value — all decided by the people whose knowledge makes it real.</p>
+      </div>
+    </div>
+    <div class="build-item">
+      <div class="build-num">05</div>
+      <div class="build-content">
+        <h3>For the People. By the People.</h3>
+        <p>Data sovereignty over your own mental health experience is a rights issue. DePsy isn't a product — it's a declaration that the person inside the experience is the primary authority on the experience. That reframing has consequences for psychiatry, for pharmaceutical policy, for how we fund community mental health, and for how we define recovery. All of those consequences are intended.</p>
+      </div>
+    </div>
+    <div class="build-item">
+      <div class="build-num">06</div>
+      <div class="build-content">
+        <h3>Citizen Journalism & Self-Documentation</h3>
+        <p>Every person who has ever filmed themselves in a breakdown, narrated a manic episode into a voice memo, or posted a raw thread about their psychiatric experience is already a journalist. Already an archivist. Already a producer of primary source material. DePsy builds the infrastructure that takes that instinct seriously — turning self-documentation into a distributed, sovereign media practice. When you document your own experience, you are not a patient recording symptoms. You are a citizen journalist covering the most undercovered beat in human history: the interior life.</p>
+      </div>
+    </div>
+    <div class="build-item">
+      <div class="build-num">07</div>
+      <div class="build-content">
+        <h3>A New DMS — Decentralized Statistical Manual</h3>
+        <p>The DSM was written by committees of clinicians who had never lived inside the experiences they were naming. The DMS is written from the inside out. Not a list of disorders — a living atlas of human experience, co-authored by the people who inhabit it. Where the DSM pathologizes, the DMS contextualizes. Where the DSM diagnoses, the DMS narrates. The goal is not a better diagnostic manual — it is the depathologizing of human experience itself. A new story, built from the ground up, one lived account at a time.</p>
+      </div>
+    </div>
+    <div class="build-item">
+      <div class="build-num">08</div>
+      <div class="build-content">
+        <h3><a href="https://moviement.productions" target="_blank" style="color:var(--warm-white);text-decoration:none;border-bottom:1px solid var(--gold-line);">A Civil Rights Moviement for the Soul</a></h3>
+        <p>A moviement is what a movement becomes when its primary carrier is story. It is a civil rights framework expressed through the dominant medium of its moment — and the dominant medium of this moment is love and creativity.</p>
+        <p style="margin-top:1rem;">Every civil rights movement in history has had a cultural instrument: the medium through which a people narrated themselves into being heard. Ours has film, performance, and participatory media. This is not branding. It is a choice about where the work actually lives.</p>
+        <p style="margin-top:1rem;">It is the sovereignty.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR -->
+<div class="freedom-fighters fade-in">
+  <div style="max-width: 1100px; margin: 0 auto; padding: 0 3rem;">
+    <div class="section-label" style="color: var(--red);">
+      <span style="display:block; width:30px; height:1px; background: var(--red);"></span>
+      Who This Is For
+    </div>
+    <h2 style="font-family: var(--serif); font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 700; line-height: 1.2; max-width: 700px;">
+      Every mental health<br>freedom fighter on earth.
+    </h2>
+  </div>
+  <div class="fighters-grid">
+    <div class="fighter-cell">
+      <div class="icon"></div>
+      <h3>Survivors & Lived-Experience Leaders</h3>
+      <p>You are not a case study. You are the primary source. Your knowledge is the foundation — and DePsy is built to compensate you for it.</p>
+    </div>
+    <div class="fighter-cell">
+      <div class="icon"></div>
+      <h3>Peer Support Networks & Mad Pride Communities</h3>
+      <p>The underground infrastructure of actual peer support has always outperformed the institutional version. DePsy is the technology layer that finally matches the scale of what you already know.</p>
+    </div>
+    <div class="fighter-cell">
+      <div class="icon"></div>
+      <h3>Reform-Minded Clinicians & Researchers</h3>
+      <p>If you believe lived experience is primary data — not supplementary data — you belong in this room. The technology is ready. The question is who builds it first and who it serves.</p>
+    </div>
+  </div>
+</div>
+
+<!-- JOIN -->
+<div class="join-section" id="join">
+  <div class="join-left fade-in">
+    <div class="status-badge">
+      <span class="status-dot"></span>
+      Now in Development
+    </div>
+    <h2>
+      This is the<br>
+      <em>founding moment.</em>
+    </h2>
+    <p>
+      DePsy is in active development. We are in early conversations with technologists, psychiatric survivors, community mental health advocates, legal architects, and reform-minded researchers. Nothing like this exists. The first version will be shaped by whoever shows up first.
+    </p>
+    <p>
+      If you are a mental health freedom fighter, a mad pride organizer, a peer support leader, a tech builder who believes in data cooperatives, a clinician who questions the model, a journalist covering the reformation — <strong>this is your invitation.</strong>
+    </p>
+
+    <form class="join-form" action="https://formspree.io/f/xlgawwvj" method="POST" id="depsy-form">
+      <select name="role" required>
+        <option value="" disabled selected>I am a... (select your role)</option>
+        <option value="survivor">Psychiatric survivor / person with lived experience</option>
+        <option value="peer">Peer support specialist / community organizer</option>
+        <option value="clinician">Mental health professional / clinician</option>
+        <option value="researcher">Researcher / academic</option>
+        <option value="tech">Technologist / developer / AI builder</option>
+        <option value="journalist">Journalist / writer / media</option>
+        <option value="funder">Funder / philanthropist</option>
+        <option value="activist">Mad Pride / neurodiversity activist</option>
+        <option value="other">Other freedom fighter</option>
+      </select>
+      <div class="form-row">
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <button type="submit">Join →</button>
+      </div>
+      <div class="form-note" id="form-status">No spam. No institutions. Just a direct line to the founding conversation.</div>
+    </form>
+    <script>
+      const form = document.getElementById('depsy-form');
+      const status = document.getElementById('form-status');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        try {
+          const res = await fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
+          if (res.ok) {
+            form.innerHTML = '<p style="font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:0.1em;">You\'re in. We\'ll be in touch.</p>';
+          } else {
+            status.textContent = 'Something went wrong. Email bret@bretwarshawsky.com directly.';
+            status.style.color = 'var(--red)';
+          }
+        } catch {
+          status.textContent = 'Something went wrong. Email bret@bretwarshawsky.com directly.';
+          status.style.color = 'var(--red)';
+        }
+      });
+    </script>
+  </div>
+
+  <div class="context fade-in">
+    <div class="context-heading">Some Parts of the <span style="text-transform:none;"><span style="color:var(--warm-white);">De</span><span style="color:var(--gold);">Psy</span></span> Ecosystem<br><span style="color:var(--warm-white);font-size:13px;letter-spacing:0.05em;">What's yours?!?!</span></div>
+
+    <div class="context-block">
+      <h4><a href="https://www.stonesynergysoup.com" target="_blank" style="color:var(--warm-white);text-decoration:none;border-bottom:1px solid var(--gold-line);">Mental Health Reformation Consortium</a></h4>
+      <p>DePsy is the AI and data sovereignty layer of a larger multi-sector alliance building community infrastructure, regenerative filmmaking, and policy reform in New Jersey and beyond.</p>
+    </div>
+
+    <div class="context-block">
+      <h4>Unbreakable Spirit Docuseries</h4>
+      <p>A 5-season transmedia docuseries documenting the moviement as it builds. The telling and the building happen simultaneously.</p>
+    </div>
+
+    <div class="context-block">
+      <h4>The One Mind Show</h4>
+      <p>A traveling immersive theater experience — the 7 Theses on what you can't say on television about psychiatry. Live, streamed, and radically participatory. The opposite of the social dilemma, where our mobile devices and technology serve our aspirations.</p>
+    </div>
+
+    <div class="context-block">
+      <h4>Filmanthropy & Regenerative Filmmaking</h4>
+      <p>Production budgets that build community infrastructure instead of disposable sets — Soteria Homes, Respite Houses, Mobile Units and more. The financial engine that funds the reformation.</p>
+    </div>
+
+    <div style="margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--mid);">
+      <div class="form-note" style="margin-bottom: 0.5rem;">Contact the founder</div>
+      <a href="mailto:bret@bretwarshawsky.com" style="color: var(--gold); font-family: var(--mono); font-size: 13px; text-decoration: none; letter-spacing: 0.05em;">bret@bretwarshawsky.com</a>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo"><span style="color:var(--warm-white);">De</span><span style="color:var(--gold);">Psy</span><span style="color:var(--muted);"> — Democratizing Mental Health</span></div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
