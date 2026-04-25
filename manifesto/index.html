@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DePsy — We Are Coming</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #0a0806;
+    --paper: #f5f0e6;
+    --red: #b0101a;
+    --gold: #9a7418;
+    --muted: #6a6050;
+    --border: #ccc4ae;
+    --pale: #ede7d8;
+    --dark-bg: #0d0a06;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 300;
+    line-height: 1.88;
+    font-size: 18px;
+    -webkit-font-smoothing: antialiased;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ── BANNER ── */
+  .war-banner {
+    background: var(--red);
+    color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 13px 20px;
+    margin: 0 -32px;
+  }
+
+  /* ── HEADER ── */
+  .doc-header { border-bottom: 1px solid var(--border); padding: 72px 0 56px; }
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--red);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 30px;
+  }
+  .kicker::after { content: ''; flex: 1; height: 1px; background: var(--red); opacity: 0.45; }
+
+  h1.doc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5.2vw, 64px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.022em;
+    color: var(--ink);
+    margin-bottom: 30px;
+  }
+  h1.doc-title em { font-style: italic; color: var(--red); }
+
+  .doc-subtitle {
+    font-size: 19px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--muted);
+    line-height: 1.62;
+    border-left: 3px solid var(--red);
+    padding-left: 20px;
+    margin-bottom: 38px;
+    max-width: 620px;
+  }
+  .doc-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+
+  /* ── SECTIONS ── */
+  .section-wrap { padding: 66px 0; border-bottom: 1px solid var(--border); }
+  .section-wrap:last-of-type { border-bottom: none; }
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+  }
+  h2.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(27px, 3.8vw, 44px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+    margin-bottom: 40px;
+    max-width: 640px;
+  }
+  h2.section-title em { font-style: italic; color: var(--red); }
+
+  /* ── PROSE ── */
+  .prose p { margin-bottom: 28px; color: #252015; font-size: 18px; line-height: 1.9; }
+  .prose p:last-child { margin-bottom: 0; }
+
+  /* ── VOICE BLOCK ── */
+  .voice {
+    border-left: 3px solid var(--gold);
+    padding: 24px 0 24px 28px;
+    margin: 44px 0;
+    max-width: 700px;
+  }
+  .voice-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .voice p {
+    font-size: 17px;
+    line-height: 1.75;
+    color: #2e2616;
+    margin-bottom: 10px;
+  }
+  .voice p:last-of-type { margin-bottom: 0; }
+  .voice-role {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 14px;
+    display: block;
+  }
+
+  /* ── PULL QUOTE ── */
+  .pull-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(21px, 3vw, 30px);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.42;
+    color: var(--ink);
+    border-left: 4px solid var(--red);
+    padding: 22px 0 22px 28px;
+    margin: 48px 0;
+    max-width: 680px;
+  }
+
+  /* ── DARK CALLOUT ── */
+  .callout-dark {
+    background: var(--dark-bg);
+    color: #e5ddd0;
+    padding: 40px 44px;
+    margin: 48px -8px;
+    font-size: 18px;
+    line-height: 1.82;
+  }
+  .callout-dark strong { color: #fff; font-weight: 600; }
+  .callout-dark em { font-style: italic; color: #e06070; }
+
+  /* ── RED DECLARATION ── */
+  .declaration {
+    background: var(--red);
+    color: #fff;
+    padding: 40px 44px;
+    margin: 48px -8px;
+  }
+  .declaration p {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(20px, 2.6vw, 28px);
+    font-style: italic;
+    line-height: 1.5;
+    color: #fff;
+    margin: 0;
+  }
+
+  /* ── INDICTMENT ── */
+  .indictment {
+    border: 2px solid var(--ink);
+    padding: 34px 38px;
+    margin: 48px 0;
+    background: var(--pale);
+  }
+  .indictment-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 16px;
+  }
+  .indictment p { font-size: 17px; color: var(--ink); line-height: 1.72; margin-bottom: 12px; }
+  .indictment p:last-child { margin: 0; }
+
+  /* ── VERDICT ── */
+  .verdict {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(30px, 4.5vw, 54px);
+    font-weight: 900;
+    line-height: 1.06;
+    color: var(--red);
+    text-align: center;
+    padding: 50px 0;
+    letter-spacing: -0.02em;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin: 48px 0;
+  }
+
+  /* ── CONSTELLATION ── */
+  .constellation {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin: 48px 0;
+  }
+  .voice-cell {
+    background: var(--pale);
+    border-top: 2px solid var(--gold);
+    padding: 26px 24px;
+  }
+  .voice-cell.dark {
+    background: var(--dark-bg);
+    border-top-color: var(--red);
+    grid-column: 1 / -1;
+  }
+  .voice-cell .voice-name { margin-bottom: 10px; }
+  .voice-cell p { font-size: 14px; line-height: 1.65; color: var(--muted); margin: 0; }
+  .voice-cell.dark p { color: #b0a898; }
+  .voice-cell.dark .voice-name { color: var(--gold); }
+
+  /* ── FOOTER ── */
+  .ornament { text-align: center; font-size: 20px; color: var(--gold); padding: 14px 0 0; opacity: 0.65; }
+  .doc-footer { border-top: 1px solid var(--border); padding: 52px 0 72px; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--ink); margin-bottom: 12px; }
+  .footer-meta { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); line-height: 2.3; }
+  .footer-meta a { color: var(--red); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    body { padding: 0 20px; font-size: 16px; }
+    .war-banner { margin: 0 -20px; }
+    .doc-header { padding: 44px 0 40px; }
+    .section-wrap { padding: 48px 0; }
+    .callout-dark { padding: 28px 24px; margin: 40px -4px; }
+    .declaration { padding: 30px 24px; margin: 40px -4px; }
+    .constellation { grid-template-columns: 1fr; }
+    .voice-cell.dark { grid-column: 1; }
+  }
+  @media print {
+    .war-banner { display: none; }
+    body { font-size: 11pt; max-width: 100%; padding: 0; }
+    .callout-dark, .declaration { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .section-wrap { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="war-banner">We Are Coming &nbsp;·&nbsp; DePsy.info &nbsp;·&nbsp; The Founding &nbsp;·&nbsp; 2026</div>
+
+<header class="doc-header">
+  <div class="kicker">DePsy — Democratizing Mental Health</div>
+  <h1 class="doc-title">We Are Going to<br>Obsolete <em>All of It.</em><br>Lawfully. Permanently.<br>And Build Something<br><em>Better in Its Place.</em></h1>
+  <p class="doc-subtitle">
+    On 125 years of psychiatric extraction, the myth that built the pharmaceutical market,
+    the scholars, survivors, journalists, and lawyers who have been proving the alternative all along —
+    and the infrastructure that ends the era of the middleman for good.
+  </p>
+  <div class="doc-meta">
+    <span>DePsy.info</span>
+    <span>Founded by Bret Warshawsky</span>
+    <span>In partnership with Bonfires AI</span>
+    <span>2026</span>
+  </div>
+</header>
+
+
+<!-- ══════════════════════ I ══════════════════════ -->
+<section class="section-wrap">
+  <div class="section-num">I &nbsp;·&nbsp; 125 Years of Extraction</div>
+  <h2 class="section-title">A History of Control<br>Dressed as <em>Care</em></h2>
+
+  <div class="prose">
+    <p>The record of how institutional psychiatry has treated the people in its care is not, on close examination, a history of healing. It is a history of control — and an indictment not only of individual actors but of an entire structural arrangement that was never designed to serve the people inside it. From the overcrowded asylums of the late nineteenth century, where patients were warehoused rather than treated, to the eugenics movement of the early twentieth century that classified mental difference as social defect, to the decades of insulin coma therapy, metrazol convulsion, electroshock, and lobotomy: each era produced its own rationale for why what was being done to people was being done for them. The justifications changed with the science of the moment. The structure of power did not.</p>
+
+    <p>The introduction of chlorpromazine in the 1950s did not end that logic. It industrialized it. What followed was not a revolution in understanding but a revolution in market scale: pharmaceutical companies funding research, shaping diagnostic categories, paying academic psychiatrists to promote products, building a business model that required chronic manageable illness rather than recovery. As Robert Whitaker has documented with exhaustive sourcing across two decades of investigative journalism, schizophrenia outcomes by the late twentieth century were no better than they had been before the drug era began — and in some measures, significantly worse. The evidence base that supposedly justified all of this was, in significant measure, constructed by the same industry that profited from it.</p>
+  </div>
+
+  <div class="voice">
+    <div class="voice-name">Robert Whitaker — Mad in America</div>
+    <p>Whitaker — journalist, author of <em>Mad in America</em> and <em>Anatomy of an Epidemic</em>, founder of madinamerica.com — has framed the scale of the problem with surgical precision. "We as a society have organized ourselves around a false narrative of science," he has said. The treatment record across a century of American psychiatry, he argues, is not a story of progress interrupted by setbacks. It is a story of an institution telling the public one thing while the research showed another — and of the people most harmed by that gap being the last ones whose testimony was considered relevant. Anatomy of an Epidemic won the 2010 Investigative Reporters and Editors award for best investigative journalism. The establishment's response, by Whitaker's account, was to have his interviews cancelled and his local paper run a review comparing the book to AIDS denialism. That is what it looks like when an institution defends its narrative.</p>
+    <span class="voice-role">Author, <em>Mad in America</em> &amp; <em>Anatomy of an Epidemic</em> &nbsp;·&nbsp; Founder, madinamerica.com &nbsp;·&nbsp; Pulitzer finalist, Boston Globe</span>
+  </div>
+
+  <div class="prose">
+    <p>The people who knew this most clearly were not the researchers. They were the people who lived it. Patients at the Utica State Lunatic Asylum produced their own journal between 1851 and 1860 — first-person testimony from inside the institution, long before any organized movement existed to receive it. In 1868, Elizabeth Packard, committed to an Illinois asylum by her husband without legal recourse, began publishing accounts of her experience and founded the Anti-Insane Asylum Society. In England, the Alleged Lunatics' Friend Society had been campaigning for reform since 1848. These were not fringe protests. They were the earliest recorded instances of a principle that would take another century to fully articulate: that the person inside the experience holds knowledge the institution does not, and cannot, possess — and that the institution has always had a structural interest in suppressing that knowledge, because the knowledge undermines the authority on which its power depends.</p>
+
+    <p>The psychiatric survivors movement as a modern political force arose from the civil rights ferment of the late 1960s and early 1970s. The Insane Liberation Front. The Network Against Psychiatric Assault. Actions in San Francisco against electroconvulsive therapy that led the city to discontinue ECT for a decade. Publications like Madness Network News. The first International Conference on Human Rights and Against Psychiatric Oppression, in 1973. The movement was unified on a foundational point: the person who has been through it is not a passive recipient of expert knowledge. They are a producer of it. They are, in fact, the expert.</p>
+
+    <p>By the mid-1980s, government funding redirected the movement's most radical energy into tolerable advocacy. Madness Network News ended. The annual conferences ended. The government-funded Alternatives Conference took their place. The movement did not die, but it was managed — channeled into consumer advocacy that could work within the system rather than challenge who the system served. Mad Pride emerged in the early 1990s as cultural reclamation. Mad Studies established itself as a serious academic field. The work deepened. But the structural problem — who owns the knowledge, who sets the terms, who defines what counts as evidence — remained completely, deliberately unresolved.</p>
+
+    <p>Until now.</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════ II ══════════════════════ -->
+<section class="section-wrap">
+  <div class="section-num">II &nbsp;·&nbsp; Sovereignty</div>
+  <h2 class="section-title">No More Middlemen.<br><em>Not One.</em></h2>
+
+  <div class="prose">
+    <p>The taxi industry did not see Uber coming because it was too busy defending its medallions. Blockbuster did not see Netflix coming because it was too busy charging late fees. Encyclopaedia Britannica did not see Wikipedia coming because it was too busy printing volumes no one would read. Disruption does not announce itself with a manifesto. It builds a better thing and lets obsolescence do the rest. That is precisely what DePsy is doing — and institutional psychiatry, the pharmaceutical mental health complex, and the entire apparatus of credentialed middlemen who have positioned themselves between human suffering and human wisdom should pay attention. Not because we are coming to attack them. Because we are coming to make them unnecessary.</p>
+
+    <p>For as long as any of us can remember, someone else has been in charge of the story. Psychiatry decided what our experiences meant. Pharmaceutical companies decided what we needed. Institutions decided who was qualified to know. The entire architecture of mental health — the diagnostic manuals, the treatment protocols, the research hierarchies, the funding streams — was built by people whose relationship to mental difference was professional, not lived. And that distance was not incidental. It was the point. The middleman only has power as long as the person at the center of the experience cannot speak for themselves, organize their own knowledge, or govern their own care.</p>
+  </div>
+
+  <div class="voice">
+    <div class="voice-name">Vesper Moore — Indigenous Mad Liberation Activist</div>
+    <p>Vesper Moore — Indigenous activist, psychiatric survivor, trainer, writer, and one of the most consequential organizers in the youngest wave of the psychiatric survivor movement — has made it their life's mission, in their own words, "to rewrite the narrative the mental health-industrial complex has enforced on our society." Moore has brought lived experience to the United Nations, to the US government, to legislative chambers, and to the peer respite movement, through their work with Kiva Centers — an entirely peer-run space that traces its lineage directly back through Mpower and the Mental Patients Liberation Front of Massachusetts. When Kiva Centers was founded, Moore recalls, "something that we noticed was that the psychiatric survivor community was largely white and largely cis men, and our communities really weren't." The infrastructure of survival, in other words, was itself exclusive. DePsy is built to end that exclusion architecturally — by building a data commons and governance structure that begins from the most marginalized, not from the center.</p>
+    <span class="voice-role">Indigenous Mad Liberation Activist &nbsp;·&nbsp; Psychiatric Survivor &nbsp;·&nbsp; UN &amp; US Government Consultant &nbsp;·&nbsp; Co-founder, Kiva Centers (MA)</span>
+  </div>
+
+  <div class="prose">
+    <p>DePsy is built on one foundational belief: that the person inside the experience is the primary authority on the experience. Not a data point. Not a case study. Not a diagnostic code awaiting assignment. The sovereign holder of knowledge that no clinician, no researcher, no pharmaceutical board can access from the outside. Decentralization means no single institution controls that knowledge. No pharmaceutical bottom line shapes what gets studied or surfaced. No diagnostic committee assembled behind closed doors without lived experience at the table gets to decide what human suffering means and what it requires. Democratization means the full, unmediated texture of human experience with mental difference — across cultures, languages, traditions, and survival strategies that institutional psychiatry has never had the humility to investigate — becomes the foundation, not the footnote.</p>
+  </div>
+
+  <div class="voice">
+    <div class="voice-name">Hel Spandler — Mad Studies, Asylum Magazine</div>
+    <p>Hel Spandler, Professor of Mental Health at the University of Central Lancashire, Editor-in-Chief of Asylum: The Radical Mental Health Magazine, and co-lead editor of the International Journal of Mad Studies, has spent a career building the scholarly and cultural case for exactly this architecture. Spandler's central argument is that the limits of compassionate mental health care are not limits of individual clinician goodwill — they are structural limits. Individual compassion, however genuine, cannot substitute for collective systems rooted in Mad-identified people's own priorities and knowledge. The healing circle, the zine, the peer support space — these are not supplementary to care. For millions of people, they are what care actually is. The problem is that they have never been given the infrastructure — legal, technological, cooperative — that matches the scale of what they already know and do.</p>
+    <span class="voice-role">Professor of Mental Health, Univ. of Central Lancashire &nbsp;·&nbsp; Editor-in-Chief, Asylum Magazine &nbsp;·&nbsp; Principal Investigator, Madzines</span>
+  </div>
+
+  <div class="prose">
+    <p>The underground world of peer wisdom — what actually works, how people navigate breakdown into breakthrough, what the spiritual emergency called psychosis actually is from the inside, what the healing circle knows that the clinical trial never thought to ask — has never been aggregated at scale. Never reflected back. Never given the cooperative, decentralized infrastructure it deserves. That knowledge is not merely morally valid. It is, as the evidence increasingly confirms, scientifically correct and economically superior to anything institutional psychiatry has produced. DePsy is the infrastructure that proves it permanently.</p>
+  </div>
+
+  <div class="declaration">
+    <p>We are not asking for a seat at the table. We are building a different table — and the people who have spent lifetimes being kept from the first one are the ones who will govern it.</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════ III ══════════════════════ -->
+<section class="section-wrap">
+  <div class="section-num">III &nbsp;·&nbsp; Evidence — Rewritten</div>
+  <h2 class="section-title">Their Evidence Was<br>a <em>Gatekeeping Mechanism.</em><br>Ours Is a World.</h2>
+
+  <div class="prose">
+    <p>There is a phrase the institutional system loves: evidence-based practice. It sounds like rigor. What it means in practice is that the only knowledge that counts is the knowledge the institution decided to measure, in the ways the institution decided to measure it, funded by entities with a direct financial interest in the outcome. The randomized controlled trial becomes the gold standard not because it captures the full truth of human experience but because it concentrates authority in the hands of people who can afford to run it. Evidence, in this system, is not neutral. It is a gatekeeping mechanism dressed as science — and the gate has always been kept on behalf of those who profit from what's inside.</p>
+  </div>
+
+  <div class="voice">
+    <div class="voice-name">Rob Wipond — Investigative Journalist, <em>Your Consent Is Not Required</em></div>
+    <p>Investigative journalist Rob Wipond — whose 2023 book <em>Your Consent Is Not Required: The Rise in Psychiatric Detentions, Forced Treatment, and Abusive Guardianships</em> documented in granular, alarming detail how more law-abiding Americans are being involuntarily committed today than at any point in history — has named the mechanism with characteristic directness: "It is an industry," he has said of the mental health system, "and it needs to be understood in that way. I think if we talked about it more like that, we'd actually be closer to understanding some of the main mechanisms that are at work." Wipond's documentation of how psychiatric coercion is used to manage school children, control the elderly, police the streets, fraudulently increase hospital profits, and even detain protesters and discredit whistleblowers — all under the banner of care — is the ground-level anatomy of what DePsy is architecturally designed to replace.</p>
+    <span class="voice-role">Investigative Journalist &nbsp;·&nbsp; Author, <em>Your Consent Is Not Required</em> (BenBella, 2023) &nbsp;·&nbsp; 17 journalism award nominations</span>
+  </div>
+
+  <div class="prose">
+    <p>The peer movement has always known something the evidence hierarchy cannot accommodate: that the person who has walked through it carries knowledge no outside observer can replicate. What works — what actually moves people from crisis toward wholeness — is disproportionately held by people with lived experience, passed through peer support relationships, community spaces, and the radical honesty that happens between people who recognize each other's journeys. This knowledge is real. It is vast. It is actionable. It has saved lives the clinical system had given up on. And by the institutional definition of evidence, it barely exists.</p>
+  </div>
+
+  <div class="voice">
+    <div class="voice-name">Laura López-Aybar — Decolonial Psychiatry &amp; Survivor Knowledge</div>
+    <p>Laura López-Aybar — critical psychologist, psychiatric survivor, researcher at the New York State Psychiatric Institute, and co-founder of Mad in Puerto Rico — brings a decolonial and feminist framework to the question of what counts as knowledge in mental health. Her work makes explicit what the evidence hierarchy leaves implicit: that the decision about which methodologies produce legitimate knowledge is itself a political decision, shaped by the same power structures that determine who gets diagnosed, who gets hospitalized, and who gets believed. The survivor, in this framing, is not a source of anecdote. She is the subject-matter expert from whom the academy has structurally excluded itself. That exclusion is not accidental. It is the system operating as designed. DePsy is the infrastructure that ends it permanently — by placing the people the system has historically most dismissed at the center of its own knowledge architecture.</p>
+    <span class="voice-role">Critical Psychologist &nbsp;·&nbsp; Psychiatric Survivor &nbsp;·&nbsp; Researcher, NY State Psychiatric Institute &nbsp;·&nbsp; Co-founder, Mad in Puerto Rico</span>
+  </div>
+
+  <div class="prose">
+    <p>When lived experience is aggregated across millions of accounts — across cultures, traditions, survival strategies, and healing practices that institutional research has never thought to ask about — something emerges that is not anecdote and not testimony and not advocacy. It is distributed evidence, generated by the largest and most diverse research population in mental health history. It is, in a direct and provable sense, better data than anything the pharmaceutical industry has ever funded. And unlike their data, it cannot be shaped by a bottom line, because the people who generate it own it.</p>
+    <p>There is a further dimension the movement has understood intuitively and the data increasingly confirms: peer-led approaches work economically. Hearing Voices Network programs, Open Dialogue, peer respite — consistently producing comparable or superior outcomes at a fraction of the cost, with dramatically lower rates of coercion and hospitalization. The pharmaceutical model's ideal patient is a chronic one. The peer model's ideal outcome is someone who no longer needs the system. That difference is not incidental. It is the entire moral, scientific, and economic argument for what DePsy is building.</p>
+  </div>
+
+  <div class="callout-dark">
+    A decentralized evidence base, governed by the people who created it, accountable to lived experience rather than institutional funding, <em>does not compete</em> with the existing mental health system. <strong>It makes the existing system's justifications structurally incoherent.</strong> When the peer-generated evidence base is larger, richer, more culturally comprehensive, and more outcome-aligned than anything institutional psychiatry has produced, the gatekeeping function of credentialed evidence collapses. The wall falls not by attack. By irrelevance.
+  </div>
+</section>
+
+
+<!-- ══════════════════════ IV ══════════════════════ -->
+<section class="section-wrap">
+  <div class="section-num">IV &nbsp;·&nbsp; The Chemical Imbalance Myth</div>
+  <h2 class="section-title">The Lie That<br><em>Built the Market.</em><br>The Truth That<br><em>Ends It.</em></h2>
+
+  <div class="prose">
+    <p>If you want to understand exactly how the pharmaceutical mental health complex operates — how a hypothesis becomes a treatment becomes a cultural belief before anyone asks whether the hypothesis was true — there is no cleaner case study than the chemical imbalance theory of depression. It is not an embarrassing chapter in an otherwise honorable history. It is the system operating exactly as designed.</p>
+
+    <p>The serotonin theory of depression was proposed in the 1960s as a tentative, contested working hypothesis — never empirically confirmed in any rigorous sense. What happened next was not science. It was marketing. In the 1990s, the pharmaceutical industry promoted it aggressively in direct association with its campaign to sell a new class of antidepressants known as SSRIs. The chemical imbalance metaphor was simple, memorable, and enormously profitable. It was taught in medical schools. It was printed on package inserts. It was explained by psychiatrists to patients who trusted them. Surveys found that 85 to 90 percent of the public came to believe that depression was caused by low serotonin or a chemical imbalance. The belief shaped how people understood themselves, how willing they were to consider non-pharmacological approaches, and how optimistic they felt about recovery. It became the operating system of an entire cultural understanding of mental illness — and it drove one of the largest expansions of pharmaceutical dependency in human history.</p>
+
+    <p>The science told a different story throughout. There is no scientifically established ideal chemical balance of serotonin, let alone an identifiable pathological imbalance. Contemporary neuroscience has failed to confirm any serotonergic lesion in any mental disorder. In 2022, a landmark umbrella review led by UCL Professor Joanna Moncrieff, published in Molecular Psychiatry, found no convincing evidence that depression is caused by serotonin abnormalities. The Royal College of Psychiatrists subsequently removed all reference to chemical imbalances from their website — quietly, without announcement. When the establishment edits its own record in silence, it is acknowledging something it is not prepared to defend in public.</p>
+  </div>
+
+  <div class="voice">
+    <div class="voice-name">Kim Witczak — Drug Safety Advocate, WoodyMatters</div>
+    <p>Kim Witczak did not choose to become an advocate. She was made one by the system. In 2003, her husband Woody — a 37-year-old entrepreneur who had just started his dream job — went to his family physician for insomnia and was given Zoloft off-label. Five weeks later he was dead. "We never once questioned the drug," Witczak has said. "Why would we? Zoloft is FDA approved, given to him by his doctor and was advertised and sold as safe and effective." What Witczak subsequently learned — through the FDA, HHS, Congress, and the courts — was that the FDA had held public hearings in 1991 on the link between Prozac and the emergence of suicide and violence, decided not to add warnings, told the company to study suicidality, and never followed up. In the years since Woody's death, Witczak helped win black box suicide warnings for children and young adults, served nine years as consumer representative on the FDA Psychopharmacologic Drug Advisory Committee, and built a body of advocacy that the system still fights to contain. Her campaign — "We Are Not Anecdotes, We Matter" — is the precise argument that DePsy's data architecture is built to prove. When Kim Witczak went to the FDA and they told her Woody's story was just an anecdote, she was being told that lived experience does not count as evidence. DePsy is the infrastructure that ends that dismissal permanently.</p>
+    <span class="voice-role">Drug Safety Advocate &nbsp;·&nbsp; Co-founder, WoodyMatters &nbsp;·&nbsp; FDA Psychopharmacologic Drug Advisory Committee (Consumer Representative, 9 years) &nbsp;·&nbsp; Testified before US Senate HELP Committee</span>
+  </div>
+
+  <div class="prose">
+    <p>When confronted with the growing evidence against the chemical imbalance theory, some leading psychiatrists claimed it had only ever been an urban legend — that the profession had never seriously endorsed it. The research record is unambiguous: the majority of highly cited academic reviews from 1990 to 2010 supported the hypothesis; research papers on serotonin strongly endorsed it; every textbook examined supported it. The profession promoted a theory it now disowns, for thirty years, to patients who were never told that the confidence being projected at them was not backed by evidence. And the harm was not merely epistemic. Research has confirmed that people who believe their depression has a biochemical cause are more pessimistic about their chances of recovery. The myth did not just misrepresent the science. It actively harmed the people it claimed to help — by making them less likely to believe they could get better without pharmaceutical intervention.</p>
+  </div>
+
+  <div class="voice">
+    <div class="voice-name">Jim Gottstein — Harvard Law, PsychRights, <em>The Zyprexa Papers</em></div>
+    <p>Jim Gottstein is not a man who stumbled into this work from the outside. In 1982, at age 29, he became psychotic from sleep deprivation and was brought to the hospital in a straitjacket. He was, by his own account, lucky to have escaped permanent psychiatric disability. A Harvard-trained lawyer, he co-founded the Law Project for Psychiatric Rights in 2002 with a singular mission: strategic litigation against forced psychiatric drugging and electroshock across the United States. His most consequential act was obtaining and sharing the Zyprexa Papers — confidential Eli Lilly documents showing that company executives had knowingly concealed metabolic risks of Zyprexa, including diabetes, downplayed those risks in published data, and illegally promoted off-label use in children and the elderly. The documents led to front-page stories in the New York Times. Eli Lilly's army of lawyers came after Gottstein personally. As pharmacologist and author David Healy has observed, "everything we know about what pharma gets up to comes from legal actions in the US and a handful of lawyers like Gottstein." His framing of the systemic problem is unambiguous: "The public mental health system is creating a huge class of chronic mental patients through forcing them to take ineffective, yet extremely harmful and addictive drugs. The courts are being misled by dishonest research and testimony." DePsy is the data infrastructure that makes that dishonesty impossible to sustain — because the people it has been practiced upon will own the record.</p>
+    <span class="voice-role">Harvard Law &nbsp;·&nbsp; Co-founder, PsychRights &nbsp;·&nbsp; Author, <em>The Zyprexa Papers</em> &nbsp;·&nbsp; 5 Alaska Supreme Court victories on psychiatric rights &nbsp;·&nbsp; MindFreedom International Board</span>
+  </div>
+
+  <div class="indictment">
+    <div class="indictment-label">Structural Indictment</div>
+    <p>The chemical imbalance myth was not an error. It was the predictable output of a system in which the people who profit from a particular answer are the same people who fund the research, train the clinicians, write the textbooks, and author the diagnostic categories.</p>
+    <p>The people most affected — millions who were told their suffering had a biochemical explanation and a pharmaceutical solution — were not part of that system. They were its product. Its market. Its revenue stream.</p>
+    <p>DePsy is built to make that structure permanently, architecturally impossible to repeat. Because the people who know the truth will own the platform on which the truth is kept.</p>
+  </div>
+
+  <div class="verdict">No more.<br>Not one more generation.</div>
+</section>
+
+
+<!-- ══════════════════════ V ══════════════════════ -->
+<section class="section-wrap">
+  <div class="section-num">V &nbsp;·&nbsp; The Founding Moment</div>
+  <h2 class="section-title">The Movement Built This.<br><em>Now We Build<br>the Infrastructure.</em></h2>
+
+  <div class="prose">
+    <p>What has been missing across all of these decades of courageous, costly, intellectually serious work is not more argument. The arguments have been made and they have been won everywhere that honest people are paying attention. What has been missing is the infrastructure — the technology layer that holds lived experience as primary data, returns ownership to its source, and operates permanently outside the reach of institutional capture. That infrastructure is now possible. DePsy is building it.</p>
+
+    <p>DePsy is a cooperatively owned, decentralized mental health operating system built from the ground up on lived experience, governed by the people whose knowledge makes it real. A large language model trained not on clinical manuals and pharmaceutical studies but on peer wisdom, survivor knowledge, and the full texture of human experience with mental difference across every culture — one that knows the difference between spiritual emergence and psychiatric emergency because the people who lived through both told it so. A Decentralized Statistical Manual — a living atlas of human experience, written from the inside out, authored by the people who inhabit these states — replacing the pathologizing logic of a diagnostic system produced by committees who have never been inside the rooms they are naming. A cooperative evidence commons where the knowledge of the most experienced research population in mental health history is finally, formally, architecturally treated as primary.</p>
+  </div>
+
+  <div class="voice">
+    <div class="voice-name">Pranami Tamuli — Global South Epistemologies</div>
+    <p>Educator and systems thinker Pranami Tamuli works at the intersection of community-based psychosocial wellbeing, Global South epistemologies, and mental health reform. Her work insists on something that DePsy takes as foundational: that the knowledge frameworks developed within Western institutional psychiatry are not universal truths. They are geographically and culturally situated — provincial, in fact, despite the global authority they have claimed. The traditions of understanding mental difference that exist across the Global South — rooted in community, in cosmology, in collective healing practice — are not pre-scientific approximations waiting to be upgraded by the DSM. They are epistemologically serious alternatives that the dominant system has systematically ignored, because incorporating them would undermine its authority to define what knowledge counts. The DePsy database, by design, begins from this premise: that the wisdom traditions of the Global South are not edge cases for the architecture. They are the center of it.</p>
+    <span class="voice-role">Educator &amp; Systems Thinker &nbsp;·&nbsp; Community Psychosocial Wellbeing &nbsp;·&nbsp; Global South Epistemologies &nbsp;·&nbsp; Mental Health Reform</span>
+  </div>
+
+  <div class="prose">
+    <p>The people who shape DePsy in this founding moment — the psychiatric survivors, the Mad Pride organizers, the reform-minded clinicians, the peer specialists, the researchers who have staked careers on the primacy of lived experience, the journalists who have spent decades exposing what the system will not say about itself, the lawyers who have taken pharmaceutical corporations to court and won — will determine what this becomes. Not as consultants. Not as advisors brought in after the architecture is set. As co-owners. Co-governors. Founding members of the infrastructure that replaces the one that failed them.</p>
+  </div>
+
+  <!-- Constellation of voices -->
+  <div class="constellation">
+    <div class="voice-cell dark">
+      <div class="voice-name">Karin Jervert — Art, Spirit &amp; the Non-Pathologizing Frame</div>
+      <p style="color:#c0b8a8; font-size:15px; line-height:1.7;">Artist, writer, Mad Pride activist, and founder of Woodland Sunflower Collective, Karin Jervert has spent her practice insisting that human distress can be held in frames other than pathology — frames of art, spirituality, and meaning. This is not a softer version of the argument. It is a deeper one. Her work as liaison to Mad in the World at Mad in America represents exactly the kind of cross-cultural, decolonizing, non-pathologizing knowledge that DePsy's Decentralized Statistical Manual is built to hold. The moviement needs a cultural soul. Jervert's work is what that soul looks like in practice.</p>
+    </div>
+    <div class="voice-cell">
+      <div class="voice-name">Alan Robinson — Latin America &amp; Proof of Scale</div>
+      <p>Author, theatre director, editor of Locura magazine in Argentina, and President of RedEsfera Latinoamericana. Robinson's Latin American alternative mental health network is proof of concept at continental scale — community-led, culturally rooted practice already operating across borders in multiple languages. DePsy is the infrastructure that connects it to a global commons.</p>
+    </div>
+    <div class="voice-cell">
+      <div class="voice-name">Rob Wipond — The Legal Record</div>
+      <p>His investigative record documents how psychiatric coercion has expanded — not contracted — in the era of deinstitutionalization. More people are forcibly committed today than ever in American history. The system Wipond has anatomized needs to be replaced. DePsy is the architecture of replacement.</p>
+    </div>
+    <div class="voice-cell">
+      <div class="voice-name">Jim Gottstein — The Legal Sword</div>
+      <p>Five Alaska Supreme Court victories. The Zyprexa Papers. Decades of litigation proving that forced psychiatric drugging is unconstitutional when less intrusive alternatives exist. The legal framework for psychiatric rights is built. DePsy is the cooperative infrastructure that gives those rights permanent economic and technological teeth.</p>
+    </div>
+    <div class="voice-cell">
+      <div class="voice-name">Kim Witczak — The Human Cost, Documented</div>
+      <p>Nine years on the FDA advisory committee. A campaign that won black box suicide warnings on antidepressants. A life's work built on one founding truth: "We are not anecdotes. We matter." DePsy is the infrastructure that transforms that truth from moral claim into data architecture.</p>
+    </div>
+    <div class="voice-cell">
+      <div class="voice-name">Vesper Moore — The Next Generation</div>
+      <p>Indigenous, queer, psychiatric survivor. Working at the United Nations and in peer respite simultaneously. The youngest wave of the movement, fully aware of the movement's history, building what comes next. Moore's mission — to rewrite the narrative the mental health-industrial complex has enforced — is DePsy's mission. The infrastructure is the rewrite.</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>This is not a reform proposal. Reforms can be absorbed, defunded, redefined, and managed into harmlessness — the history of this movement is partly a history of exactly that process. This is obsolescence by invention. We are not petitioning institutional psychiatry to do better. We are building something so demonstrably better — for the soul and for the bottom line — that the old system loses its justification, its customers, and ultimately its authority. Lawfully. Permanently. The same mechanism that ended every extractive middleman industry history has recorded.</p>
+
+    <p>The movement has been building toward this for 150 years. Every journal written inside an asylum. Every protest outside a psychiatric facility. Every peer support circle that changed a life the clinical system said couldn't be changed. Every mad studies paper. Every survivor memoir. Every radical magazine. Every healing circle. Every Latin American network meeting. Every decolonial framework that insisted the DSM had no jurisdiction over its understanding of human experience. Every lawyer who subpoenaed documents a pharmaceutical corporation needed to keep secret. Every drug safety advocate who stood before Congress and said her husband's story was not an anecdote. All of it was building the case. DePsy is the moment the case becomes architecture.</p>
+  </div>
+
+  <div class="pull-quote">
+    This is an idea whose time has come. A convergence — of technology, of moral clarity, of a movement mature enough to build rather than only resist — that does not happen twice. We are not waiting for permission. We are not asking the institutions that built the problem to validate the solution. We are building it now.
+  </div>
+
+  <div class="callout-dark">
+    <strong>To everyone in this movement who has been told their knowledge doesn't count, their experience isn't evidence, their survival isn't expertise:</strong> <em>you were always right.</em> The science now confirms it. The law has begun to say it. The technology now enables it. The only question is whether the community that earned this moment will show up to claim it — before someone else builds it without them.
+  </div>
+</section>
+
+<!-- ══════════════════════ VI ══════════════════════ -->
+<section class="section-wrap">
+  <div class="section-num">VI &nbsp;·&nbsp; Ownership — The Economic Revolution</div>
+  <h2 class="section-title">You Don't Just<br>Build This.<br><em>You Own It.</em></h2>
+
+  <div class="prose">
+    <p>Every movement in history has built the intellectual case, won the moral argument, and then watched the economic rewards flow to someone else. The abolitionists did not own the railroads. The suffragettes did not own the newspapers. The civil rights movement did not own the television networks through which its images changed the world. The psychiatric survivor movement has spent 150 years building the knowledge base of the most important and least-resourced field in human health — and the institutions that monetized that knowledge returned nothing to the people whose lives made it real. That cycle ends here. DePsy is not just a platform for the movement. It is an economic structure designed from the first line of code to return value to its creators.</p>
+
+    <p>The mechanism is concrete, cooperative, and legally architected from the founding moment. Every person who contributes lived experience to DePsy — every story, journal entry, voice recording, first-person account of what breakdown and recovery and spiritual emergence and peer support actually looks like from the inside — generates an ownership stake in the platform that story helped build. Not a loyalty point. Not a thank-you token. A cooperative share. A governance vote. A claim on the economic value that grows as the platform grows. This is the $KNOW token: the unit of recognized contribution in a system that finally, formally treats lived experience as the asset it has always been.</p>
+
+    <p>The DAO — the Decentralized Autonomous Organization that governs DePsy — is not a board of directors in suits. It is the community itself, operating through transparent, on-chain governance that no single institution can capture, no pharmaceutical funder can redirect, and no government agency can quietly defund. Every major decision — how the AI is trained, what research gets surfaced, how revenue is allocated, which partnerships are pursued — is voted on by the people whose contributions make the platform real. For the first time in the history of mental health infrastructure, the people most affected by the decisions are the ones making them.</p>
+  </div>
+
+  <div class="declaration">
+    <p>The knowledge was always yours. The platform is yours. The governance is yours. And now — for the first time — so are the economics.</p>
+  </div>
+
+  <div class="prose">
+    <p>The monetization architecture is designed around multiple interlocking streams, each governed by the DAO and flowing back to contributors. The AI layer — a large language model trained on the world's most comprehensive database of lived mental health experience — generates licensing revenue from researchers, healthcare systems, and institutions that want access to the most sophisticated peer-knowledge engine ever built. Crucially, that access is on the community's terms, at the community's price, with the community's consent. The days of researchers extracting survivor knowledge for academic papers that survivors never see are over. The data commons generates value. The value returns to the commons. The commons then decides what to build next.</p>
+
+    <p>And what it builds next is where this becomes genuinely historic. Because DePsy is not the destination. It is the funding mechanism for the physical infrastructure the alternative mental health movement has always needed and never been able to afford at scale.</p>
+  </div>
+
+  <div class="callout-dark">
+    <strong>The Soteria model works.</strong> Loren Mosher proved it in the 1970s. The research confirms it. Peer respite works. Hearing Voices Networks work. Open Dialogue works. The problem has never been the evidence. <em>The problem has always been the money.</em> DePsy is the economic engine that changes that equation permanently — generating the resources to build, at planetary scale, the physical infrastructure that makes these alternatives not supplementary options for the lucky few but the primary architecture of a new mental health world.
+  </div>
+
+  <div class="prose">
+    <p>The vision is concrete: a global network of Soteria Houses and peer respite centers — the physical, community-held spaces that have consistently outperformed clinical settings for decades — funded not by government grants that can be redirected or philanthropic whims that can evaporate, but by the sustainable, cooperative economics of a platform owned by its community. Every dollar generated by the DePsy AI becomes a dollar available to seed the next peer respite house in Buenos Aires, the next Hearing Voices circle in Mumbai, the next Soteria-model crisis center in a community that has never had one. Not charity. Not grant-dependency. Economic sovereignty converted directly into physical infrastructure.</p>
+
+    <p>The network of innovators and activists that forms around DePsy — the mad studies scholars, the peer specialists, the decolonial practitioners, the community organizers, the artists, the journalists, the lawyers — is not just a coalition of supporters. It is a distributed workforce of co-owners, each bringing their expertise to a shared economic project whose success directly funds the world they are trying to build. Alan Robinson's Latin American network becomes a node in a global cooperative, generating and receiving value from a shared infrastructure. Vesper Moore's peer respite work in Massachusetts becomes a model that the DAO can fund to replicate across every continent. Karin Jervert's non-pathologizing artistic practice becomes a funded cultural program within a network that has the economics to sustain it.</p>
+
+    <p>This is what planetary scale infrastructure actually looks like — not a single massive institution with a headquarters and a board, but a distributed, self-governing, economically sovereign network of communities, each holding their own knowledge, each connected to a shared platform, each drawing on collective resources to build what their community needs. The UN has been calling for a radical shift away from the disease model toward a human rights model in mental health. The WHO has documented non-coercive approaches that work across every culture. The evidence base is assembled. The moral argument is won. What has been missing is the economic engine. DePsy is that engine — and it runs on the one resource the alternative mental health movement has always had in inexhaustible supply: the lived experience of the people who survived a system that was never built for them, and built something better in its place.</p>
+  </div>
+
+  <div class="pull-quote">
+    For the first time in 150 years of this movement, the people who do the building will own what gets built. The knowledge economy of mental health will finally belong to the people whose knowledge made it possible.
+  </div>
+
+  <div class="indictment">
+    <div class="indictment-label">What Gets Built — The DePsy Economic Architecture</div>
+    <p><strong>$KNOW Token:</strong> Cooperative ownership stake earned by every contributor of lived experience. Governance rights, revenue share, and a permanent record of contribution on a decentralized ledger that no institution can alter or erase.</p>
+    <p><strong>The DAO:</strong> Community governance of every major platform decision — training data, revenue allocation, research partnerships, expansion — voted on transparently by the people whose contributions make the platform real.</p>
+    <p><strong>AI Licensing Revenue:</strong> The DePsy language model, trained on the world's most comprehensive peer knowledge base, generates institutional licensing revenue that flows back to contributors and funds physical infrastructure.</p>
+    <p><strong>The Physical Network:</strong> Soteria Houses. Peer respite centers. Hearing Voices circles. Open Dialogue hubs. Funded not by grants but by cooperative economics — at planetary scale, in every language, beginning now.</p>
+    <p><strong>The Activist Economy:</strong> A global network of co-owner innovators — scholars, artists, organizers, lawyers, practitioners — each drawing on shared resources to build what their community needs, each contributing to a platform that returns value in proportion to what they give.</p>
+  </div>
+</section>
+
+<div class="ornament">❧</div>
+
+<footer class="doc-footer">
+  <div class="footer-logo">DePsy</div>
+  <div class="footer-meta">
+    Democratizing Mental Health &nbsp;·&nbsp; <a href="https://www.depsy.info">depsy.info</a><br>
+    Founded by Bret Warshawsky &nbsp;·&nbsp; In partnership with Bonfires AI<br>
+    Contact: <a href="mailto:bret@bretwarshawsky.com">bret@bretwarshawsky.com</a><br><br>
+    Built for: Psychiatric Survivors &nbsp;·&nbsp; Mad Pride &nbsp;·&nbsp; Peer Support Leaders &nbsp;·&nbsp; Reform Clinicians<br>
+    Lived-Experience Researchers &nbsp;·&nbsp; Mental Health Journalists &nbsp;·&nbsp; Drug Safety Advocates<br>
+    Community Organizers &nbsp;·&nbsp; Psychiatric Rights Lawyers<br>
+    &amp; Radical Philanthropists who know a revolution when they see one.
+  </div>
+</footer>
+
+</body>
+</html>
