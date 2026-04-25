@@ -5,86 +5,151 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DePsy — We Are Coming</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
   :root {
-    --ink: #0a0806;
-    --paper: #f5f0e6;
-    --red: #b0101a;
-    --gold: #9a7418;
-    --muted: #6a6050;
-    --border: #ccc4ae;
-    --pale: #ede7d8;
-    --dark-bg: #0d0a06;
+    --black: #080807;
+    --warm-white: #f2ede4;
+    --gold: #c8a227;
+    --gold-dim: rgba(200, 162, 39, 0.06);
+    --gold-line: rgba(200, 162, 39, 0.35);
+    --red: #b83025;
+    --red-dim: rgba(184, 48, 37, 0.08);
+    --red-line: rgba(184, 48, 37, 0.3);
+    --muted: #7a7570;
+    --mid: #3a3830;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'IBM Plex Sans', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
   }
+
   html { scroll-behavior: smooth; }
+
   body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--black);
+    color: var(--warm-white);
+    font-family: var(--sans);
     font-weight: 300;
-    line-height: 1.88;
-    font-size: 18px;
+    line-height: 1.85;
+    font-size: 17px;
     -webkit-font-smoothing: antialiased;
-    max-width: 780px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 0 32px;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(242,237,228,0.07);
+    background: rgba(8,8,7,0.92);
+    backdrop-filter: blur(8px);
+  }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 1.75rem;
+    align-items: center;
+  }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--warm-white);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    border: 1px solid var(--mid);
+    padding: 4px 12px;
+    text-transform: uppercase;
   }
 
   /* ── BANNER ── */
   .war-banner {
-    background: var(--red);
-    color: #fff;
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
+    margin: 64px -32px 0;
+    padding: 13px 32px;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 10.5px;
     letter-spacing: 0.24em;
     text-transform: uppercase;
-    text-align: center;
-    padding: 13px 20px;
-    margin: 0 -32px;
+    color: var(--gold);
+    background: var(--red-dim);
+    border-bottom: 1px solid var(--red-line);
   }
 
   /* ── HEADER ── */
-  .doc-header { border-bottom: 1px solid var(--border); padding: 72px 0 56px; }
+  .doc-header {
+    border-bottom: 1px solid var(--mid);
+    padding: 80px 0 60px;
+  }
   .kicker {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.28em;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: var(--red);
+    color: var(--gold);
     display: flex;
     align-items: center;
-    gap: 14px;
-    margin-bottom: 30px;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
   }
-  .kicker::after { content: ''; flex: 1; height: 1px; background: var(--red); opacity: 0.45; }
+  .kicker::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+    flex: 0 0 40px;
+  }
 
   h1.doc-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(36px, 5.2vw, 64px);
+    font-family: var(--serif);
+    font-size: clamp(36px, 5.4vw, 64px);
     font-weight: 900;
     line-height: 1.05;
     letter-spacing: -0.022em;
-    color: var(--ink);
-    margin-bottom: 30px;
+    color: var(--warm-white);
+    margin-bottom: 32px;
   }
-  h1.doc-title em { font-style: italic; color: var(--red); }
+  h1.doc-title em { font-style: italic; color: var(--gold); }
 
   .doc-subtitle {
     font-size: 19px;
-    font-weight: 400;
+    font-weight: 300;
     font-style: italic;
-    color: var(--muted);
-    line-height: 1.62;
-    border-left: 3px solid var(--red);
-    padding-left: 20px;
+    color: rgba(242,237,228,0.7);
+    line-height: 1.7;
+    border-left: 2px solid var(--gold);
+    padding-left: 1.5rem;
     margin-bottom: 38px;
     max-width: 620px;
   }
   .doc-meta {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
+    font-family: var(--mono);
+    font-size: 10.5px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--muted);
@@ -94,89 +159,117 @@
   }
 
   /* ── SECTIONS ── */
-  .section-wrap { padding: 66px 0; border-bottom: 1px solid var(--border); }
+  .section-wrap {
+    padding: 72px 0;
+    border-bottom: 1px solid var(--mid);
+  }
   .section-wrap:last-of-type { border-bottom: none; }
+
   .section-num {
-    font-family: 'DM Mono', monospace;
-    font-size: 9.5px;
-    letter-spacing: 0.28em;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
   }
+  .section-num::before {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 1px;
+    background: var(--gold);
+    flex: 0 0 30px;
+  }
+
   h2.section-title {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--serif);
     font-size: clamp(27px, 3.8vw, 44px);
     font-weight: 700;
-    line-height: 1.1;
+    line-height: 1.12;
     letter-spacing: -0.012em;
-    color: var(--ink);
+    color: var(--warm-white);
     margin-bottom: 40px;
     max-width: 640px;
   }
-  h2.section-title em { font-style: italic; color: var(--red); }
+  h2.section-title em { font-style: italic; color: var(--gold); }
 
   /* ── PROSE ── */
-  .prose p { margin-bottom: 28px; color: #252015; font-size: 18px; line-height: 1.9; }
+  .prose p {
+    margin-bottom: 26px;
+    color: rgba(242,237,228,0.78);
+    font-size: 17px;
+    line-height: 1.9;
+  }
   .prose p:last-child { margin-bottom: 0; }
+  .prose strong { color: var(--warm-white); font-weight: 500; }
+  .prose em { font-style: italic; }
 
   /* ── VOICE BLOCK ── */
   .voice {
-    border-left: 3px solid var(--gold);
+    border-left: 2px solid var(--gold);
     padding: 24px 0 24px 28px;
     margin: 44px 0;
     max-width: 700px;
   }
   .voice-name {
-    font-family: 'DM Mono', monospace;
-    font-size: 9.5px;
-    letter-spacing: 0.24em;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 12px;
+    margin-bottom: 14px;
+    line-height: 1.5;
   }
   .voice p {
-    font-size: 17px;
-    line-height: 1.75;
-    color: #2e2616;
-    margin-bottom: 10px;
+    font-size: 16px;
+    line-height: 1.78;
+    color: rgba(242,237,228,0.72);
+    margin-bottom: 12px;
   }
   .voice p:last-of-type { margin-bottom: 0; }
+  .voice em { font-style: italic; color: rgba(242,237,228,0.88); }
   .voice-role {
-    font-family: 'DM Mono', monospace;
-    font-size: 9px;
+    font-family: var(--mono);
+    font-size: 10px;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--muted);
-    margin-top: 14px;
+    margin-top: 16px;
     display: block;
+    line-height: 1.7;
   }
 
   /* ── PULL QUOTE ── */
   .pull-quote {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--serif);
     font-size: clamp(21px, 3vw, 30px);
     font-weight: 400;
     font-style: italic;
     line-height: 1.42;
-    color: var(--ink);
-    border-left: 4px solid var(--red);
+    color: var(--gold);
+    border-left: 3px solid var(--gold);
     padding: 22px 0 22px 28px;
     margin: 48px 0;
     max-width: 680px;
   }
 
-  /* ── DARK CALLOUT ── */
+  /* ── GOLD CALLOUT (was dark) ── */
   .callout-dark {
-    background: var(--dark-bg);
-    color: #e5ddd0;
-    padding: 40px 44px;
+    background: var(--gold-dim);
+    border-top: 1px solid var(--gold-line);
+    border-bottom: 1px solid var(--gold-line);
+    color: rgba(242,237,228,0.85);
+    padding: 38px 40px;
     margin: 48px -8px;
-    font-size: 18px;
+    font-size: 17px;
     line-height: 1.82;
   }
-  .callout-dark strong { color: #fff; font-weight: 600; }
-  .callout-dark em { font-style: italic; color: #e06070; }
+  .callout-dark strong { color: var(--warm-white); font-weight: 500; }
+  .callout-dark em { font-style: italic; color: var(--gold); }
 
   /* ── RED DECLARATION ── */
   .declaration {
@@ -186,7 +279,7 @@
     margin: 48px -8px;
   }
   .declaration p {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--serif);
     font-size: clamp(20px, 2.6vw, 28px);
     font-style: italic;
     line-height: 1.5;
@@ -196,34 +289,40 @@
 
   /* ── INDICTMENT ── */
   .indictment {
-    border: 2px solid var(--ink);
-    padding: 34px 38px;
+    border: 1px solid var(--mid);
+    padding: 32px 36px;
     margin: 48px 0;
-    background: var(--pale);
+    background: rgba(242,237,228,0.02);
   }
   .indictment-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.3em;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.28em;
     text-transform: uppercase;
     color: var(--red);
-    margin-bottom: 16px;
+    margin-bottom: 18px;
   }
-  .indictment p { font-size: 17px; color: var(--ink); line-height: 1.72; margin-bottom: 12px; }
+  .indictment p {
+    font-size: 16px;
+    color: rgba(242,237,228,0.72);
+    line-height: 1.78;
+    margin-bottom: 14px;
+  }
   .indictment p:last-child { margin: 0; }
+  .indictment strong { color: var(--warm-white); font-weight: 500; }
 
   /* ── VERDICT ── */
   .verdict {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--serif);
     font-size: clamp(30px, 4.5vw, 54px);
     font-weight: 900;
     line-height: 1.06;
     color: var(--red);
     text-align: center;
-    padding: 50px 0;
+    padding: 56px 0;
     letter-spacing: -0.02em;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
+    border-top: 1px solid var(--mid);
+    border-bottom: 1px solid var(--mid);
     margin: 48px 0;
   }
 
@@ -231,59 +330,111 @@
   .constellation {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2px;
+    gap: 1px;
+    background: var(--mid);
+    border: 1px solid var(--mid);
     margin: 48px 0;
   }
   .voice-cell {
-    background: var(--pale);
+    background: var(--black);
     border-top: 2px solid var(--gold);
     padding: 26px 24px;
   }
   .voice-cell.dark {
-    background: var(--dark-bg);
+    background: rgba(184, 48, 37, 0.06);
     border-top-color: var(--red);
     grid-column: 1 / -1;
   }
-  .voice-cell .voice-name { margin-bottom: 10px; }
-  .voice-cell p { font-size: 14px; line-height: 1.65; color: var(--muted); margin: 0; }
-  .voice-cell.dark p { color: #b0a898; }
-  .voice-cell.dark .voice-name { color: var(--gold); }
+  .voice-cell .voice-name { margin-bottom: 12px; }
+  .voice-cell p {
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: rgba(242,237,228,0.55);
+    margin: 0;
+  }
+  .voice-cell.dark p { color: rgba(242,237,228,0.65); }
+  .voice-cell.dark .voice-name { color: var(--red); }
 
   /* ── FOOTER ── */
-  .ornament { text-align: center; font-size: 20px; color: var(--gold); padding: 14px 0 0; opacity: 0.65; }
-  .doc-footer { border-top: 1px solid var(--border); padding: 52px 0 72px; }
-  .footer-logo { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--ink); margin-bottom: 12px; }
-  .footer-meta { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); line-height: 2.3; }
-  .footer-meta a { color: var(--red); text-decoration: none; }
+  .ornament {
+    text-align: center;
+    font-size: 22px;
+    color: var(--gold);
+    padding: 18px 0 0;
+    opacity: 0.5;
+  }
+  .doc-footer {
+    border-top: 1px solid var(--mid);
+    padding: 56px 0 84px;
+  }
+  .footer-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+  }
+  .footer-meta {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 2.2;
+  }
+  .footer-meta a {
+    color: var(--gold);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-meta a:hover { color: var(--warm-white); }
+
+  /* ── DEPSY LINK ── */
   a.depsy-link {
     color: inherit;
     text-decoration: underline;
-    text-decoration-color: var(--red);
+    text-decoration-color: var(--gold);
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
     transition: color 0.15s ease;
   }
-  a.depsy-link:hover { color: var(--red); }
+  a.depsy-link:hover { color: var(--gold); }
 
-  @media (max-width: 600px) {
+  /* ── RESPONSIVE ── */
+  @media (max-width: 760px) {
     body { padding: 0 20px; font-size: 16px; }
-    .war-banner { margin: 0 -20px; }
-    .doc-header { padding: 44px 0 40px; }
-    .section-wrap { padding: 48px 0; }
-    .callout-dark { padding: 28px 24px; margin: 40px -4px; }
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1rem; }
+    .nav-badge { display: none; }
+    .war-banner { margin: 60px -20px 0; padding: 13px 20px; }
+    .doc-header { padding: 56px 0 44px; }
+    .section-wrap { padding: 52px 0; }
+    .callout-dark { padding: 28px 22px; margin: 40px -4px; }
     .declaration { padding: 30px 24px; margin: 40px -4px; }
+    .indictment { padding: 24px 22px; }
     .constellation { grid-template-columns: 1fr; }
     .voice-cell.dark { grid-column: 1; }
+    .doc-meta { gap: 16px; font-size: 9.5px; }
   }
+
   @media print {
-    .war-banner { display: none; }
-    body { font-size: 11pt; max-width: 100%; padding: 0; }
+    nav, .war-banner { display: none; }
+    body { font-size: 11pt; max-width: 100%; padding: 0; background: #fff; color: #000; }
+    .prose p, .voice p, .indictment p { color: #000; }
     .callout-dark, .declaration { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .section-wrap { page-break-inside: avoid; }
   }
 </style>
 </head>
 <body>
+
+<nav>
+  <a href="/" class="nav-logo"><span style="color:var(--warm-white);">De</span><span style="color:var(--gold);">Psy</span></a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+  </div>
+  <div class="nav-badge">Manifesto · 2026</div>
+</nav>
 
 <div class="war-banner">We Are Coming &nbsp;·&nbsp; <a class="depsy-link" href="https://depsy.info/">DePsy</a>.info &nbsp;·&nbsp; The Founding &nbsp;·&nbsp; 2026</div>
 

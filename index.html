@@ -66,6 +66,22 @@
     text-transform: uppercase;
   }
 
+  .nav-links {
+    display: flex;
+    gap: 1.75rem;
+    align-items: center;
+  }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--warm-white);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
   /* HERO */
   .hero {
     min-height: 100vh;
@@ -678,7 +694,10 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo"><span style="color:var(--warm-white);">De</span><span style="color:var(--gold);">Psy</span></div>
+  <a href="/" class="nav-logo" style="text-decoration:none;"><span style="color:var(--warm-white);">De</span><span style="color:var(--gold);">Psy</span></a>
+  <div class="nav-links">
+    <a href="/manifesto/">Manifesto</a>
+  </div>
   <div class="nav-badge">In Development — 2026</div>
 </nav>
 
@@ -944,6 +963,9 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo"><span style="color:var(--warm-white);">De</span><span style="color:var(--gold);">Psy</span><span style="color:var(--muted);"> — Democratizing Mental Health</span></div>
+  <div class="footer-links">
+    <a href="/manifesto/">Read the Manifesto →</a>
+  </div>
 </footer>
 
 <script>
