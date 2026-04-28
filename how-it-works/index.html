@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DePsy — How It Works</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #080807;
+    --warm-white: #f2ede4;
+    --gold: #c8a227;
+    --gold-dim: rgba(200, 162, 39, 0.06);
+    --gold-line: rgba(200, 162, 39, 0.35);
+    --red: #b83025;
+    --red-dim: rgba(184, 48, 37, 0.08);
+    --red-line: rgba(184, 48, 37, 0.3);
+    --muted: #7a7570;
+    --mid: #3a3830;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'IBM Plex Sans', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--warm-white);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.85;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 32px;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(242,237,228,0.07);
+    background: rgba(8,8,7,0.92);
+    backdrop-filter: blur(8px);
+  }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 1.75rem;
+    align-items: center;
+  }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--warm-white);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    border: 1px solid var(--mid);
+    padding: 4px 12px;
+    text-transform: uppercase;
+  }
+
+  /* ── BANNER ── */
+  .war-banner {
+    margin: 64px -32px 0;
+    padding: 13px 32px;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: var(--gold-dim);
+    border-bottom: 1px solid var(--gold-line);
+  }
+
+  /* ── HEADER ── */
+  .doc-header {
+    border-bottom: 1px solid var(--mid);
+    padding: 80px 0 60px;
+  }
+  .kicker {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .kicker::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+    flex: 0 0 40px;
+  }
+
+  h1.doc-title {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5.4vw, 64px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.022em;
+    color: var(--warm-white);
+    margin-bottom: 32px;
+  }
+  h1.doc-title em { font-style: italic; color: var(--gold); }
+
+  .doc-subtitle {
+    font-size: 19px;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(242,237,228,0.7);
+    line-height: 1.7;
+    border-left: 2px solid var(--gold);
+    padding-left: 1.5rem;
+    margin-bottom: 38px;
+    max-width: 620px;
+  }
+  .doc-meta {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+
+  /* ── SECTIONS ── */
+  .section-wrap {
+    padding: 72px 0;
+    border-bottom: 1px solid var(--mid);
+  }
+  .section-wrap:last-of-type { border-bottom: none; }
+
+  .section-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .section-num::before {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 1px;
+    background: var(--gold);
+    flex: 0 0 30px;
+  }
+
+  h2.section-title {
+    font-family: var(--serif);
+    font-size: clamp(27px, 3.8vw, 44px);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.012em;
+    color: var(--warm-white);
+    margin-bottom: 40px;
+    max-width: 640px;
+  }
+  h2.section-title em { font-style: italic; color: var(--gold); }
+
+  /* ── PROSE ── */
+  .prose p {
+    margin-bottom: 26px;
+    color: rgba(242,237,228,0.78);
+    font-size: 17px;
+    line-height: 1.9;
+  }
+  .prose p:last-child { margin-bottom: 0; }
+  .prose strong { color: var(--warm-white); font-weight: 500; }
+  .prose em { font-style: italic; }
+
+  /* ── PULL QUOTE ── */
+  .pull-quote {
+    font-family: var(--serif);
+    font-size: clamp(21px, 3vw, 30px);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.42;
+    color: var(--gold);
+    border-left: 3px solid var(--gold);
+    padding: 22px 0 22px 28px;
+    margin: 48px 0;
+    max-width: 680px;
+  }
+
+  /* ── CTA LIST ── */
+  .cta-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 12px;
+    margin-bottom: 32px;
+  }
+  .cta-list a.cta-link {
+    font-family: var(--serif);
+    font-size: clamp(20px, 2.4vw, 26px);
+    font-weight: 400;
+    color: var(--warm-white);
+    text-decoration: none;
+    border-bottom: 1px solid var(--gold-line);
+    padding: 18px 0;
+    transition: color 0.2s, border-color 0.2s, padding-left 0.2s;
+    letter-spacing: -0.005em;
+    display: block;
+  }
+  .cta-list a.cta-link:hover {
+    color: var(--gold);
+    border-color: var(--gold);
+    padding-left: 8px;
+  }
+  .cta-list a.cta-contact {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    color: var(--gold);
+    text-decoration: none;
+    padding: 22px 0 0;
+    display: block;
+    transition: color 0.2s;
+  }
+  .cta-list a.cta-contact:hover { color: var(--warm-white); }
+
+  /* ── FOOTER ── */
+  .ornament {
+    text-align: center;
+    font-size: 22px;
+    color: var(--gold);
+    padding: 18px 0 0;
+    opacity: 0.5;
+  }
+  .doc-footer {
+    border-top: 1px solid var(--mid);
+    padding: 56px 0 84px;
+  }
+  .footer-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+  }
+  .footer-meta {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 2.2;
+  }
+  .footer-meta a {
+    color: var(--gold);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-meta a:hover { color: var(--warm-white); }
+
+  /* ── DEPSY LINK ── */
+  a.depsy-link {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--gold);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: color 0.15s ease;
+  }
+  a.depsy-link:hover { color: var(--gold); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 760px) {
+    body { padding: 0 20px; font-size: 16px; }
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1rem; }
+    .nav-badge { display: none; }
+    .war-banner { margin: 60px -20px 0; padding: 13px 20px; }
+    .doc-header { padding: 56px 0 44px; }
+    .section-wrap { padding: 52px 0; }
+    .doc-meta { gap: 16px; font-size: 9.5px; }
+  }
+
+  @media print {
+    nav, .war-banner { display: none; }
+    body { font-size: 11pt; max-width: 100%; padding: 0; background: #fff; color: #000; }
+    .prose p { color: #000; }
+    .section-wrap { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo"><span style="color:var(--warm-white);">De</span><span style="color:var(--gold);">Psy</span></a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/manifesto/">Manifesto</a>
+  </div>
+  <div class="nav-badge">How It Works · 2026</div>
+</nav>
+
+<div class="war-banner">Architecture &nbsp;·&nbsp; <a class="depsy-link" href="https://depsy.info/">DePsy</a>.info &nbsp;·&nbsp; How It Works &nbsp;·&nbsp; 2026</div>
+
+<header class="doc-header">
+  <div class="kicker"><a class="depsy-link" href="https://depsy.info/">DePsy</a> — How It Works</div>
+  <h1 class="doc-title">The architecture<br>beneath <em>the manifesto.</em></h1>
+  <p class="doc-subtitle">
+    <a class="depsy-link" href="https://depsy.info/">DePsy</a> is a cooperative knowledge infrastructure for mental health, built on four interlocking layers. Each layer is real, named, and either operational or in active build. None of it is speculative.
+  </p>
+  <div class="doc-meta">
+    <span><a class="depsy-link" href="https://depsy.info/">DePsy</a>.info</span>
+    <span>Founded by Bret Warshawsky</span>
+    <span>In partnership with Bonfires AI</span>
+    <span>2026</span>
+  </div>
+</header>
+
+
+<!-- ══════════════════════ Layer 1 ══════════════════════ -->
+<section class="section-wrap">
+  <div class="section-num">Layer 1</div>
+  <h2 class="section-title">The Reasoning Layer</h2>
+
+  <div class="prose">
+    <p><a class="depsy-link" href="https://depsy.info/">DePsy</a>'s AI is not a proprietary model trained from scratch. It is a state-of-the-art open-source large language model (currently testing Mistral, Qwen, and DeepSeek model families under Apache 2.0 / MIT licensing) operated as a queryable surface over the <a class="depsy-link" href="https://depsy.info/">DePsy</a> knowledge commons. The model never owns the data. It reasons over data the contributors own — and cites every passage back to its source, with click-through to the original creator.</p>
+
+    <p>This is a deliberate choice. A model trained from scratch on survivor data would absorb that data into its weights, where it cannot be withdrawn, edited, or governed. By keeping the model and the data separate — using retrieval-augmented generation rather than wholesale training — <a class="depsy-link" href="https://depsy.info/">DePsy</a> preserves contributor sovereignty at the technical level, not just the rhetorical one.</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════ Layer 2 ══════════════════════ -->
+<section class="section-wrap">
+  <div class="section-num">Layer 2</div>
+  <h2 class="section-title">The Knowledge Commons<br>(Federated Bonfires)</h2>
+
+  <div class="prose">
+    <p><a class="depsy-link" href="https://depsy.info/">DePsy</a>'s knowledge layer is being designed to deploy on Bonfires AI, the existing $KNOW Knowledge Network platform developed by DeSciWorld. Bonfires is currently operational across thirty-five active community deployments — including Hats Protocol, Regen Network, Secret Network, ETHBoulder, and MesoReef DAO — with eighty-eight thousand knowledge nodes and fifteen thousand indexed conversations.</p>
+
+    <p><a class="depsy-link" href="https://depsy.info/">DePsy</a>'s relationship with Bonfires AI is established and ongoing, with active collaboration toward a formal partnership for a <a class="depsy-link" href="https://depsy.info/">DePsy</a>-tuned deployment of the Knowledge Network architecture. <a class="depsy-link" href="https://depsy.info/">DePsy</a> is not building a Web3 system from scratch. It is the mental-health-reformation deployment of an architecture that is already operating, already federating across communities, and already returning $KNOW tokens to contributors based on retrieval activity. Each community node — a Soteria house, a peer respite center, a Hearing Voices circle, a Mad Pride collective — will operate its own sovereign Bonfire. <a class="depsy-link" href="https://depsy.info/">DePsy</a> federates across them.</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════ Layer 3 ══════════════════════ -->
+<section class="section-wrap">
+  <div class="section-num">Layer 3</div>
+  <h2 class="section-title">The Cooperative Economics<br>($KNOW)</h2>
+
+  <div class="prose">
+    <p>Every contribution to <a class="depsy-link" href="https://depsy.info/">DePsy</a> generates a $KNOW token allocation — cooperative ownership recognized on a decentralized ledger no institution can alter. Governance rights, revenue share from AI licensing, and a permanent record of contribution are all carried by the token. The DAO that governs <a class="depsy-link" href="https://depsy.info/">DePsy</a> is the contributor community itself.</p>
+
+    <p>This is not a speculative new token. $KNOW is the existing unit of recognized contribution in the Bonfires Knowledge Network, which <a class="depsy-link" href="https://depsy.info/">DePsy</a> participates in rather than parallels. Legal structure: cooperative, designed for compatibility with platform-cooperativism precedent (including U.S. cooperative statutes that already recognize tokenized member ownership) and structured to prevent token concentration through governance design and contribution-weighted voting.</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════ Layer 4 ══════════════════════ -->
+<section class="section-wrap">
+  <div class="section-num">Layer 4</div>
+  <h2 class="section-title">The Physical Network<br>(Phase 2)</h2>
+
+  <div class="prose">
+    <p>The economics of Layers 1–3 fund the buildout of the physical layer: a global network of Soteria Houses, peer respite centers, Hearing Voices circles, and Open Dialogue hubs. The model — proven by Loren Mosher in the 1970s and replicated in research ever since — is not new. What is new is the cooperative funding mechanism that makes it possible at planetary scale, independent of government grants and philanthropic whims.</p>
+  </div>
+
+  <div class="pull-quote">
+    Phase 1 builds the corpus, the graph, and the demo. Phase 2 builds the houses.
+  </div>
+</section>
+
+
+<!-- ══════════════════════ Trust Architecture ══════════════════════ -->
+<section class="section-wrap">
+  <h2 class="section-title">The Trust Architecture</h2>
+
+  <div class="prose">
+    <p>The single most important technical fact about <a class="depsy-link" href="https://depsy.info/">DePsy</a> is what it does <em>not</em> do. It does not scrape survivor content from the open web. It does not ingest YouTube channels without permission. It does not absorb published peer canon into proprietary weights. Every contribution to the <a class="depsy-link" href="https://depsy.info/">DePsy</a> corpus is explicitly granted by its creator, under the <a class="depsy-link" href="https://depsy.info/">DePsy</a> Founding Pledge — a one-page consent document that names what is being indexed, what use is permitted, what ownership stake the contributor receives, and the unconditional right to withdraw at any time.</p>
+
+    <p>The trust required to assemble survivor knowledge at scale does not survive centralization. It only exists inside cooperative governance. That is not an aesthetic preference. <strong>It is the architectural reason <a class="depsy-link" href="https://depsy.info/">DePsy</a> is possible and centralized AI alternatives are not.</strong></p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════ In Relationship With ══════════════════════ -->
+<section class="section-wrap">
+  <h2 class="section-title">In Relationship With</h2>
+
+  <div class="prose">
+    <p><a class="depsy-link" href="https://depsy.info/">DePsy</a> is being designed to deploy on the Bonfires AI Knowledge Network architecture (developed by DeSciWorld), with whom <a class="depsy-link" href="https://depsy.info/">DePsy</a> holds an established working relationship and active collaboration toward formal partnership. The Bonfires platform provides the federated graph, $KNOW economics, and DAO governance infrastructure that <a class="depsy-link" href="https://depsy.info/">DePsy</a> will operate inside. Technical and governance leadership for <a class="depsy-link" href="https://depsy.info/">DePsy</a> specifically is being assembled across the alternative mental health movement and the decentralized-science community. For technical detail beyond this overview, see Bonfires AI's documentation at <a class="depsy-link" href="https://docs.bonfires.ai" target="_blank">docs.bonfires.ai</a>.</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════ CONTINUE ══════════════════════ -->
+<section class="section-wrap" style="border-bottom:none;">
+  <div class="section-num">Continue</div>
+  <div class="cta-list">
+    <a class="cta-link" href="/manifesto/">Read the Manifesto →</a>
+    <a class="cta-link" href="/#join">Join the Founding Circle →</a>
+    <a class="cta-contact" href="mailto:bret@bretwarshawsky.com">Contact: bret@bretwarshawsky.com</a>
+  </div>
+</section>
+
+<div class="ornament">❧</div>
+
+<footer class="doc-footer">
+  <div class="footer-logo"><a class="depsy-link" href="https://depsy.info/">DePsy</a></div>
+  <div class="footer-meta">
+    Democratizing Mental Health &nbsp;·&nbsp; <a href="https://www.depsy.info">depsy.info</a><br>
+    Founded by Bret Warshawsky &nbsp;·&nbsp; In partnership with Bonfires AI<br>
+    Contact: <a href="mailto:bret@bretwarshawsky.com">bret@bretwarshawsky.com</a>
+  </div>
+</footer>
+
+</body>
+</html>
